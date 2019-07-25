@@ -1,5 +1,7 @@
 {
   "name": "UOK app",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }
