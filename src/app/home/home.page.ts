@@ -16,19 +16,20 @@ export class HomePage {
 
   ionViewDidEnter() {
     // this.leafletMap();
-    this.locate();
+    // this.locate();
+    this.watchCurrentPosition();
   }
   constructor(private geolocation: Geolocation) {}
 
-  leafletMap() {
-    this.map = new Map('mapId').setView([6.97427, 79.91637], 13);
-    tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: 'edupala.com © ionic LeafLet',
-    }).addTo(this.map);
+  // leafletMap() {
+  //   this.map = new Map('mapId').setView([6.97427, 79.91637], 13);
+  //   tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  //     attribution: 'edupala.com © ionic LeafLet',
+  //   }).addTo(this.map);
+  //
+  // }
 
-  }
-
-  leafletMap1(lat: string, lng: string) {
+  leafletMap(lat: string, lng: string) {
     this.map = new Map('mapId').setView([lat, lng], 20);
     tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: 'edupala.com © ionic LeafLet',
@@ -36,18 +37,31 @@ export class HomePage {
 
   }
 
-  locate(){
-    this.geolocation.getCurrentPosition().then((resp) => {
-      // resp.coords.latitude
-      // resp.coords.longitude
+  // locate(){
+  //   this.geolocation.getCurrentPosition().then((resp) => {
+  //     // resp.coords.latitude
+  //     // resp.coords.longitude
+  //
+  //
+  //     this.leafletMap('' + resp.coords.latitude, '' + resp.coords.longitude);
+  //     marker([resp.coords.latitude, resp.coords.longitude]).addTo(this.map);
+  //
+  //
+  //   }).catch((error) => {
+  //     console.log('Error getting location', error);
+  //   });
+  // }
 
+  watchCurrentPosition() {
 
-      this.leafletMap1('' + resp.coords.latitude, '' + resp.coords.longitude);
-      marker([resp.coords.latitude, resp.coords.longitude]).addTo(this.map);
+    this.geolocation.watchPosition().subscribe((data) => {
 
+      this.leafletMap('' + data.coords.latitude, '' + data.coords.longitude);
+      marker([data.coords.latitude, data.coords.longitude]).addTo(this.map);
 
-    }).catch((error) => {
-      console.log('Error getting location', error);
     });
+
   }
+
+
 }
