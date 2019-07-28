@@ -17,6 +17,7 @@ export class HomePage {
   ionViewDidEnter() {
     // this.leafletMap();
     // this.locate();
+    this.map = new Map('mapId');
     this.watchCurrentPosition();
   }
   constructor(private geolocation: Geolocation) {}
@@ -29,13 +30,14 @@ export class HomePage {
   //
   // }
 
-  leafletMap(lat: string, lng: string) {
-    this.map = new Map('mapId').setView([lat, lng], 20);
+  leafletMap(lat: number, lng: number) {
+    this.map.setView([lat, lng],22);
     tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: 'edupala.com © ionic LeafLet',
     }).addTo(this.map);
 
   }
+
 
   // locate(){
   //   this.geolocation.getCurrentPosition().then((resp) => {
@@ -56,8 +58,9 @@ export class HomePage {
 
     this.geolocation.watchPosition().subscribe((data) => {
 
-      this.leafletMap('' + data.coords.latitude, '' + data.coords.longitude);
+      this.leafletMap(data.coords.latitude, data.coords.longitude);
       marker([data.coords.latitude, data.coords.longitude]).addTo(this.map);
+      console.log(data.coords.latitude);
 
     });
 
